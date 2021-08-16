@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+  <title>Get Image Background</title>
+</head>
+<body>
+  <div class="overlay"></div>
+  <article class="controller">
+    <section class="container">
+      <div class="request">
+        <button data-type="userUrl" id="btn" class="btn__layout hover">클립보드 주소 붙여넣기</button>
+        <button data-type="randomUrl" id="btn" class="btn__layout hover">랜덤 배경 이미지</button>
+      </div>
+      <div class="style">
+        <button data-type="darken" class="bg__dark btn__layout hover">배경 어둡게</button>
+        <button data-type="blur" class="bg__blur btn__layout hover">배경 흐리게</button>
+      </div>
+    </section>
+  </article>
+  <section class="credit">
+    <p><a href="https://velog.io/@oneook" target="_blank">ⓒ Wonkook Lee</a></p>
+    <p>Images from Unsplash</p>
+  </section>
+</body>
+</html>
