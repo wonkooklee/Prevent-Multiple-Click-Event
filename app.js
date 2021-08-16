@@ -34,8 +34,8 @@ const UIController = (function() {
     target.textContent = '유효하지 않은 주소입니다';
   }
 
-  // 유효성 검사
-  const validation = function(target) {
+  // 유효성 검사 1 (문자열 검사)
+  const validTxt = function(target) {
     const regex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
     navigator.clipboard.readText()
     .then((text) => {
@@ -49,11 +49,15 @@ const UIController = (function() {
         }, 1000);
       }
     })
-    .catch((err) => {
-      console.log('Validation에서 catch 에러 발생');
-      return false;
-    })
   }
+
+  // 유효성 검사 2 (컨텐츠 타입 검사)
+
+  const validType = function(source) {
+    const contentType = source?.headers?.get('Content-Type');
+    return contentType.includes('image') ? true : false;
+  }
+
   
   document.querySelector('.request').addEventListener('click', function(e) {
     // 이벤트 위임을 위한 Guard Clause
@@ -61,19 +65,28 @@ const UIController = (function() {
 
     // 만약 클립보드 URL이라면 유효성 검사 / 랜덤 버튼이라면 즉시 getImage 호출
     if (e.target.dataset.type === 'userUrl') {
-      validation(e.target);
+      validTxt(e.target);
     } else if (e.target.dataset.type === 'randomUrl') {
       getImage(`https://source.unsplash.com/1600x900/?abstract`, e.target);
     }
   });
+
+
 
   // 이미지 요청하기
   const getImage = function(url, target) {
     target.setAttribute('disabled', true);
     target.classList.remove('hover');
     target.textContent = '이미지 가져오는 중...'
-
+    
+    // HTTP 요청
     fetch(url)
+    .then((response) => {
+      if(!validType(response)) {
+        return;
+      }
+      return response;
+    })
     .then((response) => {
       document.body.style.backgroundImage = `url(${response.url})`;
       return response;
@@ -84,7 +97,6 @@ const UIController = (function() {
       }, 600);
     })
     .catch(() => {
-      console.log('getImage에서 catch 에러 발생');
       target.removeAttribute('disabled');
       errorBtn(target);
       setTimeout(() => {
