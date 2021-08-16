@@ -31,9 +31,9 @@ body {
 button {
   display: block;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.8rem;
   width: 250px;
-  height: 60px;
+  height: 50px;
   padding-top: 5px;
   background-color: var(--btn-background);
   color: var(--primary-blue);
